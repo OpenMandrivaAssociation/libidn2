@@ -15,6 +15,7 @@ Patch1:		libidn2-2.0.4-std3-ascii-rules.patch
 BuildRequires:	lzip
 BuildRequires:	gettext-devel
 BuildRequires:	libunistring-devel
+BuildRequires:	texinfo
 
 %description
 Libidn2 is an implementation of the IDNA2008 specifications in RFC
