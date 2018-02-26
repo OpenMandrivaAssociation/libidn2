@@ -70,12 +70,11 @@ rm -f %{buildroot}%{_datadir}/info/dir
 
 # Remove example-only binaries for now
 rm -f %{buildroot}%{_bindir}/{lookup,register}
-%find_lang %{name}
 
 %check
 make -C tests check
 
-%files -n idn2 -f %{name}.lang
+%files -n idn2
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
 %{_bindir}/idn2
 %{_mandir}/man1/idn2.1*
