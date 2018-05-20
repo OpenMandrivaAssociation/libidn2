@@ -11,7 +11,6 @@ Group:		System/Libraries
 Url:		http://www.gnu.org/software/libidn/
 Source0:	http://ftp.gnu.org/gnu/libidn/%{name}-%{version}.tar.lz
 Patch0:		libidn2-2.0.0-rpath.patch
-Patch1:		libidn2-2.0.4-std3-ascii-rules.patch
 BuildRequires:	lzip
 BuildRequires:	gettext-devel
 BuildRequires:	libunistring-devel
