@@ -73,7 +73,9 @@ rm -f %{buildroot}%{_bindir}/{lookup,register}
 %check
 make -C tests check
 
-%files -n idn2
+%find_lang libidn2
+
+%files -n idn2 -f libdin2.lang
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
 %{_bindir}/idn2
 %{_mandir}/man1/idn2.1*
