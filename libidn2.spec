@@ -75,7 +75,7 @@ make -C tests check
 
 %find_lang libidn2
 
-%files -n idn2 -f libdin2.lang
+%files -n idn2 -f libidn2.lang
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
 %{_bindir}/idn2
 %{_mandir}/man1/idn2.1*
