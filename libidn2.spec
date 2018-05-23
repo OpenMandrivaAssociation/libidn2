@@ -4,14 +4,13 @@
 
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
-Version:	2.0.4
+Version:	2.0.5
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://www.gnu.org/software/libidn/
 Source0:	http://ftp.gnu.org/gnu/libidn/%{name}-%{version}.tar.lz
 Patch0:		libidn2-2.0.0-rpath.patch
-Patch1:		libidn2-2.0.4-std3-ascii-rules.patch
 BuildRequires:	lzip
 BuildRequires:	gettext-devel
 BuildRequires:	libunistring-devel
@@ -74,7 +73,9 @@ rm -f %{buildroot}%{_bindir}/{lookup,register}
 %check
 make -C tests check
 
-%files -n idn2
+%find_lang libidn2
+
+%files -n idn2 -f libidn2.lang
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
 %{_bindir}/idn2
 %{_mandir}/man1/idn2.1*
