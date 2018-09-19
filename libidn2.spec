@@ -5,7 +5,7 @@
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
 Version:	2.0.5
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://www.gnu.org/software/libidn/
@@ -48,18 +48,17 @@ Group:		System/Servers
 Internationalized Domain Name (IDNA2008) convert STRINGS, or standard input.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 %configure \
 	--with-packager="%{vendor}" \
 	--with-packager-bug-reports="%{disturl}" \
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 # Don't install any libtool .la files
 find %{buildroot} -name "*.la" -delete
