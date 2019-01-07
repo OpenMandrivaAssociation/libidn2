@@ -1,4 +1,4 @@
-%define major 0
+%define major 4
 %define libname %mklibname idn2_ %{major}
 %define devname %mklibname idn2 -d
 
@@ -24,6 +24,7 @@ Libidn2 is an implementation of the IDNA2008 specifications in RFC
 %package -n %{libname}
 Summary:	Internationalized string processing library %{name}
 Group:		System/Libraries
+Requires:	%{name}-i18n >= %{EVRD}
 
 %description -n %{libname}
 Libidn2 is an implementation of the IDNA2008 specifications in RFC
@@ -46,6 +47,14 @@ Group:		System/Servers
 
 %description -n idn2
 Internationalized Domain Name (IDNA2008) convert STRINGS, or standard input.
+
+%package i18n
+Summary:	Internationalization and locale data for %{name}
+Group:		System/Internationalization
+BuildArch:	noarch
+
+%description i18n
+Internationalization and locale data for %{name}.
 
 %prep
 %autosetup -p1
@@ -74,7 +83,7 @@ make -C tests check
 
 %find_lang libidn2
 
-%files -n idn2 -f libidn2.lang
+%files -n idn2
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
 %{_bindir}/idn2
 %{_mandir}/man1/idn2.1*
@@ -90,3 +99,5 @@ make -C tests check
 %{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/*.h
 %{_mandir}/man3/*
+
+%files i18n -f %{name}.lang
