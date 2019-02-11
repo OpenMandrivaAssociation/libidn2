@@ -31,8 +31,10 @@ Requires:	%{name}-i18n >= %{EVRD}
 %rename %oldlibname
 %if "%_lib" == "lib"
 Provides:	libidn2.so.4
+Provides:	libidn2.so.4(IDN2_0.0.0)
 %else
 Provides:	libidn2.so.4()(64bit)
+Provides:	libidn2.so.4(IDN2_0.0.0)(64bit)
 %endif
 
 %description -n %{libname}
