@@ -1,10 +1,10 @@
-%define major 4
+%define major 0
 %define libname %mklibname idn2_ %{major}
 %define devname %mklibname idn2 -d
 
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
-Version:	2.1.0
+Version:	2.1.1a
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
@@ -25,6 +25,15 @@ Libidn2 is an implementation of the IDNA2008 specifications in RFC
 Summary:	Internationalized string processing library %{name}
 Group:		System/Libraries
 Requires:	%{name}-i18n >= %{EVRD}
+# 2.1.0 bumped the soname to 4, 2.1.1 realized there wasn't
+# actually an ABI change and went back to 0...
+%define oldlibname %mklibname idn2_ 4
+%rename %oldlibname
+%if "%_lib" == "lib"
+Provides:	libidn2.so.4
+%else
+Provides:	libidn2.so.4()(64bit)
+%endif
 
 %description -n %{libname}
 Libidn2 is an implementation of the IDNA2008 specifications in RFC
@@ -57,7 +66,7 @@ BuildArch:	noarch
 Internationalization and locale data for %{name}.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-2.1.1
 
 %build
 %configure \
@@ -69,8 +78,8 @@ Internationalization and locale data for %{name}.
 %install
 %make_install
 
-# Don't install any libtool .la files
-find %{buildroot} -name "*.la" -delete
+# Compatibility with bogus 2.1.0 soname bump
+ln -s %{name}.so.0 %{buildroot}%{_libdir}/%{name}.so.4
 
 # Some file cleanups
 rm -f %{buildroot}%{_datadir}/info/dir
@@ -91,6 +100,7 @@ make -C tests check
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
+%{_libdir}/%{name}.so.4
 
 %files -n %{devname}
 %doc doc/%{name}.html
