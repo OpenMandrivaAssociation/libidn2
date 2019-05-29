@@ -68,7 +68,7 @@ BuildArch:	noarch
 Internationalization and locale data for %{name}.
 
 %prep
-%autosetup -p1 -n %{name}-2.1.1
+%autosetup -p1
 
 %build
 %configure \
