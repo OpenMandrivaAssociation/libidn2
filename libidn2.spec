@@ -89,10 +89,10 @@ rm -f %{buildroot}%{_datadir}/info/dir
 # Remove example-only binaries for now
 rm -f %{buildroot}%{_bindir}/{lookup,register}
 
+%find_lang libidn2
+
 %check
 make -C tests check
-
-%find_lang libidn2
 
 %files -n idn2
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
