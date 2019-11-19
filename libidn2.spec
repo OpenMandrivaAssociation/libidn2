@@ -4,7 +4,7 @@
 
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
-Version:	2.2.0
+Version:	2.3.0
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
@@ -13,7 +13,7 @@ Source0:	http://ftp.gnu.org/gnu/libidn/%{name}-%{version}.tar.lz
 Patch0:		libidn2-2.0.0-rpath.patch
 BuildRequires:	lzip
 BuildRequires:	gettext-devel
-BuildRequires:	libunistring-devel
+BuildRequires:	pkgconfig(libunistring)
 BuildRequires:	texinfo
 
 %description
