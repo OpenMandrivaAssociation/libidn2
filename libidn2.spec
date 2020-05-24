@@ -1,11 +1,20 @@
+# libidn2 is used by systemd, libsystemd is used by wine
+%ifarch %{x86_64}
+%bcond_without compat32
+%else
+%bcond_with compat32
+%endif
+
 %define major 0
 %define libname %mklibname idn2_ %{major}
 %define devname %mklibname idn2 -d
+%define lib32name libidn2_%{major}
+%define dev32name libidn2-devel
 
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
 Version:	2.3.0
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://www.gnu.org/software/libidn/
@@ -15,6 +24,10 @@ BuildRequires:	lzip
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(libunistring)
 BuildRequires:	texinfo
+BuildRequires:	gtk-doc
+%if %{with compat32}
+BuildRequires:	devel(libunistring)
+%endif
 
 %description
 Libidn2 is an implementation of the IDNA2008 specifications in RFC
@@ -67,18 +80,59 @@ BuildArch:	noarch
 %description i18n
 Internationalization and locale data for %{name}.
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	Internationalized string processing library %{name} (32-bit)
+Group:		System/Libraries
+Requires:	%{name}-i18n >= %{EVRD}
+
+%description -n %{lib32name}
+Libidn2 is an implementation of the IDNA2008 specifications in RFC
+5890, 5891, 5892, 5893 and TR46 for internationalized domain names
+(IDN). It is a standalone library, without any dependency on libidn.
+
+%package -n %{dev32name}
+Summary:	Development files for the %{name} library
+Group:		Development/C
+Requires:	%{devname} >= %{EVRD}
+Requires:	%{lib32name} >= %{EVRD}
+
+%description -n %{dev32name}
+Development files for the %{name} library.
+%endif
+
 %prep
 %autosetup -p1
 
-%build
+export CONFIGURE_TOP="$(pwd)"
+
+%if %{with compat32}
+mkdir build32
+cd build32
+%configure32 \
+	--with-packager="%{vendor}" \
+	--with-packager-bug-reports="%{disturl}"
+cd ..
+%endif
+
+mkdir build
+cd build
 %configure \
 	--with-packager="%{vendor}" \
 	--with-packager-bug-reports="%{disturl}" \
+	--enable-gtk-doc
 
-%make_build
+%build
+%if %{with compat32}
+%make_build -C build32
+%endif
+%make_build -C build
 
 %install
-%make_install
+%if %{with compat32}
+%make_install -C build32
+%endif
+%make_install -C build
 
 # Compatibility with bogus 2.1.0 soname bump
 ln -s %{name}.so.0 %{buildroot}%{_libdir}/%{name}.so.4
@@ -92,7 +146,10 @@ rm -f %{buildroot}%{_bindir}/{lookup,register}
 %find_lang libidn2
 
 %check
-make -C tests check
+%if %{with compat32}
+make -C build32/tests check
+%endif
+make -C build/tests check
 
 %files -n idn2
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
@@ -113,3 +170,12 @@ make -C tests check
 %{_mandir}/man3/*
 
 %files i18n -f %{name}.lang
+
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/%{name}.so.%{major}*
+
+%files -n %{dev32name}
+%{_prefix}/lib/%{name}.so
+%{_prefix}/lib/pkgconfig/%{name}.pc
+%endif
