@@ -11,10 +11,12 @@
 %define lib32name libidn2_%{major}
 %define dev32name libidn2-devel
 
+%global optflags %{optflags} -O3
+
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
 Version:	2.3.0
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://www.gnu.org/software/libidn/
