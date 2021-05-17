@@ -104,7 +104,9 @@ Development files for the %{name} library.
 
 %prep
 %autosetup -p1
+autoreconf -fiv
 
+%build
 export CONFIGURE_TOP="$(pwd)"
 
 %if %{with compat32}
@@ -122,8 +124,8 @@ cd build
 	--with-packager="%{vendor}" \
 	--with-packager-bug-reports="%{disturl}" \
 	--enable-gtk-doc
+cd ..
 
-%build
 %if %{with compat32}
 %make_build -C build32
 %endif
