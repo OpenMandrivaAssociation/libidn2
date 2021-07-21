@@ -157,20 +157,19 @@ make -C build/tests check
 %files -n idn2
 %doc AUTHORS NEWS README.md COPYING COPYING.unicode
 %{_bindir}/idn2
-%{_mandir}/man1/idn2.1*
-%{_infodir}/%{name}.info*
+%doc %{_mandir}/man1/idn2.1*
+%doc %{_infodir}/%{name}.info*
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
 %{_libdir}/%{name}.so.4
 
 %files -n %{devname}
-%doc doc/%{name}.html
 %doc %{_datadir}/gtk-doc/html/%{name}/
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/*.h
-%{_mandir}/man3/*
+%doc %{_mandir}/man3/*
 
 %files i18n -f %{name}.lang
 
