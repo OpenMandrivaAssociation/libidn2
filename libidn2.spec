@@ -5,18 +5,22 @@
 %bcond_with compat32
 %endif
 
+# static libraries are needed by qemu
+
 %define major 0
 %define libname %mklibname idn2_ %{major}
 %define devname %mklibname idn2 -d
+%define sdevname %mklibname idn2 -d -s
 %define lib32name libidn2_%{major}
 %define dev32name libidn2-devel
+%define sdev32name libidn2-static-devel
 
 %global optflags %{optflags} -O3
 
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
 Version:	2.3.2
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://www.gnu.org/software/libidn/
@@ -66,6 +70,15 @@ Requires:	%{libname} >= %{EVRD}
 %description -n %{devname}
 Development files for the %{name} library.
 
+%package -n %{sdevname}
+Summary:	Static libraries for the %{name} library
+Group:		Development/C
+Provides:	idn2-static-devel = %{EVRD}
+Requires:	%{devname} >= %{EVRD}
+
+%description -n %{sdevname}
+Static libraries for the %{name} library.
+
 %package -n idn2
 Summary:	Command line interface to the Libidn2 implementation of IDNA2008
 Group:		System/Servers
@@ -100,6 +113,14 @@ Requires:	%{lib32name} >= %{EVRD}
 
 %description -n %{dev32name}
 Development files for the %{name} library.
+
+%package -n %{sdev32name}
+Summary:	Static libraries for the %{name} library
+Group:		Development/C
+Requires:	%{dev32name} >= %{EVRD}
+
+%description -n %{sdev32name}
+Static libraries for the %{name} library.
 %endif
 
 %prep
@@ -113,6 +134,7 @@ export CONFIGURE_TOP="$(pwd)"
 mkdir build32
 cd build32
 %configure32 \
+	--enable-static \
 	--with-packager="%{vendor}" \
 	--with-packager-bug-reports="%{disturl}"
 cd ..
@@ -123,6 +145,7 @@ cd build
 %configure \
 	--with-packager="%{vendor}" \
 	--with-packager-bug-reports="%{disturl}" \
+	--enable-static \
 	--enable-gtk-doc
 cd ..
 
@@ -171,6 +194,9 @@ make -C build/tests check
 %{_includedir}/*.h
 %doc %{_mandir}/man3/*
 
+%files -n %{sdevname}
+%{_libdir}/lib*.a
+
 %files i18n -f %{name}.lang
 
 %if %{with compat32}
@@ -180,4 +206,7 @@ make -C build/tests check
 %files -n %{dev32name}
 %{_prefix}/lib/%{name}.so
 %{_prefix}/lib/pkgconfig/%{name}.pc
+
+%files -n %{sdev32name}
+%{_prefix}/lib/lib*.a
 %endif
