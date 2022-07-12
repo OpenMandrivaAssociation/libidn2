@@ -1,0 +1,14 @@
+diff -up libidn2-2.3.3/config.h.in.omv~ libidn2-2.3.3/config.h.in
+diff -up libidn2-2.3.3/configure.ac.omv~ libidn2-2.3.3/configure.ac
+diff -up libidn2-2.3.3/gl/m4/gnulib-common.m4.omv~ libidn2-2.3.3/gl/m4/gnulib-common.m4
+--- libidn2-2.3.3/gl/m4/gnulib-common.m4.omv~	2022-07-12 15:59:38.863063707 +0200
++++ libidn2-2.3.3/gl/m4/gnulib-common.m4	2022-07-12 16:00:36.460599620 +0200
+@@ -182,7 +182,7 @@ AC_DEFUN([gl_COMMON_BODY], [
+    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+    can be freed via 'free'; it can be used only after declaring 'free'.  */
+ /* Applies to: functions.  Cannot be used on inline functions.  */
+-#if _GL_GNUC_PREREQ (11, 0)
++#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
+ # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ #else
+ # define _GL_ATTRIBUTE_DEALLOC(f, i)
