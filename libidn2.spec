@@ -33,6 +33,7 @@ BuildRequires:	texinfo
 BuildRequires:	gtk-doc
 %if %{with compat32}
 BuildRequires:	devel(libunistring)
+BuildRequires:	libc6
 %endif
 
 %description
