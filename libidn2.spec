@@ -5,6 +5,14 @@
 %bcond_with compat32
 %endif
 
+%if %{cross_compiling}
+# FIXME help2man by nature doesn't work while crosscompiling,
+# but just replacing it with "true" isn't good...
+%define hm HELP2MAN=true
+%else
+%define hm %{nil}
+%endif
+
 # static libraries are needed by qemu
 
 %define major 0
@@ -152,15 +160,15 @@ cd build
 cd ..
 
 %if %{with compat32}
-%make_build -C build32
+%make_build -C build32 %{hm}
 %endif
-%make_build -C build
+%make_build -C build %{hm}
 
 %install
 %if %{with compat32}
-%make_install -C build32
+%make_install -C build32 %{hm}
 %endif
-%make_install -C build
+%make_install -C build %{hm}
 
 # Compatibility with bogus 2.1.0 soname bump
 ln -s %{name}.so.0 %{buildroot}%{_libdir}/%{name}.so.4
