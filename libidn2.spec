@@ -5,6 +5,8 @@
 %bcond_with compat32
 %endif
 
+%global build_ldflags %{build_ldflags} -Wl,--undefined-version
+
 %if %{cross_compiling}
 # FIXME help2man by nature doesn't work while crosscompiling,
 # but just replacing it with "true" isn't good...
@@ -16,9 +18,11 @@
 # static libraries are needed by qemu
 
 %define major 0
-%define libname %mklibname idn2_ %{major}
+%define oldlibname %mklibname idn2_ 0
+%define libname %mklibname idn2
 %define devname %mklibname idn2 -d
 %define sdevname %mklibname idn2 -d -s
+
 %define lib32name libidn2_%{major}
 %define dev32name libidn2-devel
 %define sdev32name libidn2-static-devel
@@ -28,11 +32,11 @@
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
 Version:	2.3.4
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		System/Libraries
-Url:		http://www.gnu.org/software/libidn/
-Source0:	http://ftp.gnu.org/gnu/libidn/%{name}-%{version}.tar.gz
+Url:		https://www.gnu.org/software/libidn/
+Source0:	https://ftp.gnu.org/gnu/libidn/%{name}-%{version}.tar.gz
 Patch0:		libidn2-2.0.0-rpath.patch
 Patch1:		libidn-2.3.3-clang.patch
 BuildRequires:	gettext-devel
@@ -55,8 +59,9 @@ Group:		System/Libraries
 Requires:	%{name}-i18n >= %{EVRD}
 # 2.1.0 bumped the soname to 4, 2.1.1 realized there wasn't
 # actually an ABI change and went back to 0...
-%define oldlibname %mklibname idn2_ 4
+%define olderlibname %mklibname idn2_ 4
 %rename %oldlibname
+%rename %olderlibname
 %if "%_lib" == "lib"
 Provides:	libidn2.so.4
 Provides:	libidn2.so.4(IDN2_0.0.0)
