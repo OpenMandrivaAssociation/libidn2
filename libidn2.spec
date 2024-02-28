@@ -32,7 +32,7 @@
 Summary:	Library to support IDNA2008 internationalized domain names
 Name:		libidn2
 Version:	2.3.4
-Release:	4
+Release:	5
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		https://www.gnu.org/software/libidn/
