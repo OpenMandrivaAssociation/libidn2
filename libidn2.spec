@@ -38,6 +38,11 @@ Group:		System/Libraries
 Url:		https://www.gnu.org/software/libidn/
 Source0:	https://ftp.gnu.org/gnu/libidn/%{name}-%{version}.tar.gz
 Patch0:		libidn2-2.0.0-rpath.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(libunistring)
 BuildRequires:	texinfo
