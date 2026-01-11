@@ -144,6 +144,8 @@ Static libraries for the %{name} library.
 
 %prep
 %autosetup -p1
+# Incompatible with slibtool due to .la hardcodes
+export LIBTOOLIZE=libtoolize
 autoreconf -fiv
 
 %build
